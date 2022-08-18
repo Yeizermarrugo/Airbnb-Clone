@@ -6,8 +6,10 @@ router.route('/') //*  /api/v1/users/
     .get(userService.getAll)
     .post(userService.register)
 
-router.route('/api/v1/users/:id')
+router.route('/:id')
     .get(userService.getById)
+    .delete(userService.remove)
+    .put(userService.edit)
 
     
 module.exports = {

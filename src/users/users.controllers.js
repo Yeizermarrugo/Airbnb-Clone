@@ -1,7 +1,22 @@
 const uuid = require('uuid');
 const { comparePassword, hashPassword } = require('../utils/crypt');
 
-const userDB = []
+const userDB = [
+    {
+        "id": "dc1d354e-9d6f-4819-bb12-88da6ed00c80",
+        "first_name": "Luis",
+        "last_name": "Perez",
+        "email": "Perez@example.com",
+        "password": "$2b$10$/Q4q.Cb9bRdJo1EiiQhmtOGdDy5Y89O5H2QhMUZbOR4ncdo35HIAq",
+        "phone": "+573004567632",
+        "birthday_date": "20/11/1999",
+        "country": "Chile",
+        "role": "normal",
+        "profile_image": "url.com/img/",
+        "is_active": true,
+        "verified": false
+      }
+]
 
 
 const getallUsers = () => {
@@ -9,7 +24,7 @@ const getallUsers = () => {
     //? select * from users;
 }
 
-const getallUsersById = () => {
+const getallUsersById = (id) => {
     const data = userDB.filter(user => user.id === id)
     return data.length ? data[0] : false
     //? select * from users where id = ${id};
@@ -23,7 +38,7 @@ const createUser = (data) => {
         email: data.email, //obligatorio
         password: hashPassword(data.password), //obligatorio
         phone: data.phone ? data.phone : '', //obligatoriounico 
-        bithday_date: data.bithday_date, //obligatorio
+        birthday_date: data.birthday_date, //obligatorio
         country: data.country, //obligator
         role: 'normal', //obligatorio y por defecto "normal"
         profile_image: data.profile_image ? data.profile_image : '',
@@ -36,7 +51,7 @@ const createUser = (data) => {
 
 const editUser = (id, data) => {
     const index = userDB.findIndex(user => user.id === id)
-    if (index === -1) {
+    if (index !== -1) {
         userDB[index] = {
             id: id,
             first_name: data.first_name, // obligatorio
@@ -44,7 +59,7 @@ const editUser = (id, data) => {
             email: data.email, //obligatorio
             password: hashPassword(data.password), //obligatorio
             phone: data.phone ? data.phone : '', //obligatoriounico 
-            bithday_date: data.bithday_date, //obligatorio
+            birthday_date: data.birthday_date, //obligatorio
             country: data.country, //obligator
             role: 'normal', //obligatorio y por defecto "normal"
             profile_image: data.profile_image ? data.profile_image : '',
@@ -68,10 +83,19 @@ const deleteUser = (id) => {
     }
 }
 
+const getUserByEmail = (email) => {
+    const data = userDB.filter((item) => item.email === email);
+    return data.length ? data[0] : false
+    //? select * from users where email = ${email};
+  }
+  
+
+
 module.exports = {
     createUser,
     getallUsers,
     getallUsersById,
     editUser,
-    deleteUser
+    deleteUser,
+    getUserByEmail
 }

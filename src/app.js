@@ -4,6 +4,7 @@ require('dotenv').config()
 const port = process.env.PORT
 //*Archivos de rutas
 const userRoute = require('./users/user.routes').router
+const authRoute = require('./auth/auth.routes').router
 
 
 //*Configuraciones iniciales
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/v1/users', userRoute)
+app.use('/api/v1/auth', authRoute)
 
 app.listen(port, () => {
     console.log(`Server started at port: ${port}`);
