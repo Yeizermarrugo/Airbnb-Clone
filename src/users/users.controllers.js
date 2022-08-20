@@ -57,7 +57,7 @@ const editUser = (id, data) => {
             first_name: data.first_name, // obligatorio
             last_name: data.last_name, //obligatorio
             email: data.email, //obligatorio
-            password: hashPassword(data.password), //obligatorio
+            password: userDB[index].password, //obligatorio
             phone: data.phone ? data.phone : '', //obligatoriounico 
             birthday_date: data.birthday_date, //obligatorio
             country: data.country, //obligator
