@@ -11,7 +11,7 @@ const userDB = [
         "phone": "+573004567632",
         "birthday_date": "20/11/1999",
         "country": "Chile",
-        "role": "normal",
+        "role": "admin",
         "profile_image": "url.com/img/",
         "is_active": true,
         "verified": false
@@ -49,7 +49,7 @@ const createUser = (data) => {
     return newUser;
 }
 
-const editUser = (id, data) => {
+const editUser = (id, data, userRole) => {
     const index = userDB.findIndex(user => user.id === id)
     if (index !== -1) {
         userDB[index] = {
@@ -61,7 +61,7 @@ const editUser = (id, data) => {
             phone: data.phone ? data.phone : '', //obligatoriounico 
             birthday_date: data.birthday_date, //obligatorio
             country: data.country, //obligator
-            role: 'normal', //obligatorio y por defecto "normal"
+            role: userRole === 'admin' ? data.role : 'normal', //obligatorio y por defecto "normal"
             profile_image: data.profile_image ? data.profile_image : '',
             is_active: data.is_active, //obligatorio y por defecto "active"
             verified: false //obligatorio y por defecto "false"
