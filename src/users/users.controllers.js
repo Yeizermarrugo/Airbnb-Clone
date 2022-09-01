@@ -1,5 +1,7 @@
 const uuid = require('uuid');
-const { comparePassword, hashPassword } = require('../utils/crypt');
+const { hashPassword } = require('../utils/crypt');
+
+const Users = require('../models/user.models')
 
 const userDB = [
     {
@@ -15,23 +17,36 @@ const userDB = [
         "profile_image": "url.com/img/",
         "is_active": true,
         "verified": false
-      }
+    }
 ]
 
 
-const getallUsers = () => {
-    return userDB
+const getallUsers = async () => {
+
+    const data = await Users.findAll()
+    attributes: {
+        exluded: ['password']
+    }
+    return data
     //? select * from users;
 }
 
-const getallUsersById = (id) => {
-    const data = userDB.filter(user => user.id === id)
-    return data.length ? data[0] : false
+const getallUsersById = async (id) => {
+    const data = await Users.findOne({
+        where: {
+            id: id,
+            is_active: true
+        },
+        attributes: {
+            exclude: ['password']
+        }
+    })
+    return data
     //? select * from users where id = ${id};
 }
 
-const createUser = (data) => {
-    const newUser = {
+const createUser = async (data) => {
+    const newUser = await Users.create({
         id: uuid.v4(), //obligatorio
         first_name: data.first_name, // obligatorio
         last_name: data.last_name, //obligatorio
@@ -41,12 +56,11 @@ const createUser = (data) => {
         birthday_date: data.birthday_date, //obligatorio
         country: data.country, //obligator
         role: 'normal', //obligatorio y por defecto "normal"
-        profile_image: data.profile_image ? data.profile_image : '',
+        profile_image: data.profile_image,
         is_active: true, //obligatorio y por defecto "active"
         verified: false //obligatorio y por defecto "false"
-    }
-    userDB.push(newUser)
-    return newUser;
+    })
+    return newUser
 }
 
 const editUser = (id, data, userRole) => {
@@ -67,35 +81,44 @@ const editUser = (id, data, userRole) => {
             verified: false //obligatorio y por defecto "false"
         }
         return userDB[index]
-    }else{
+    } else {
         return createUser(data)
     }
 }
 
 
-const deleteUser = (id) => {
-    const index = userDB.findIndex(user => user.id === id)
-    if(index !== -1){
-        userDB.splice(index, 1)
-        return true
-    }else{
+const deleteUser = async(id) => {
+        const data = await Users.destroy({
+            where: {
+                id: id
+            }
+        })
+        return data
+
+    }
+
+    const getUserByEmail = (email) => {
+        const data = userDB.filter((item) => item.email === email);
+        return data.length ? data[0] : false
+        //? select * from users where email = ${email};
+    }
+
+    const editProfileImg = (userId, imgUrl) => {
+        const index = userDB.findIndex(user => user.id === userId)
+        if (index !== -1) {
+            userDB[index].profile_image = imgUrl
+            return userDB[index]
+        }
         return false
     }
-}
-
-const getUserByEmail = (email) => {
-    const data = userDB.filter((item) => item.email === email);
-    return data.length ? data[0] : false
-    //? select * from users where email = ${email};
-  }
-  
 
 
-module.exports = {
-    createUser,
-    getallUsers,
-    getallUsersById,
-    editUser,
-    deleteUser,
-    getUserByEmail
-}
+    module.exports = {
+        createUser,
+        getallUsers,
+        getallUsersById,
+        editUser,
+        deleteUser,
+        getUserByEmail,
+        editProfileImg
+    }
