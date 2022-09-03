@@ -63,28 +63,49 @@ const createUser = async (data) => {
     return newUser
 }
 
-const editUser = (id, data, userRole) => {
-    const index = userDB.findIndex(user => user.id === id)
-    if (index !== -1) {
-        userDB[index] = {
-            id: id,
-            first_name: data.first_name, // obligatorio
-            last_name: data.last_name, //obligatorio
-            email: data.email, //obligatorio
-            password: userDB[index].password, //obligatorio
-            phone: data.phone ? data.phone : '', //obligatoriounico 
-            birthday_date: data.birthday_date, //obligatorio
-            country: data.country, //obligator
-            role: userRole === 'admin' ? data.role : 'normal', //obligatorio y por defecto "normal"
-            profile_image: data.profile_image ? data.profile_image : '',
-            is_active: data.is_active, //obligatorio y por defecto "active"
-            verified: false //obligatorio y por defecto "false"
-        }
-        return userDB[index]
-    } else {
-        return createUser(data)
+const editUser = async (userId, data, userRole) => {
+        if(userRole === 'admin') {
+            const {id, password, verified, ...newData} = data
+            const response = await Users.update({
+                ...newData
+            }, {
+                where: {
+                     id: userId
+                    }
+            })
+            return response
+    }else {
+        const {id, password, verified, role, ...newData} = data
+            const response = await Users.update({
+                ...newData
+            }, {
+                where: {
+                     id: userId
+                    }
+            })
+            return response
     }
 }
+    // if (index !== -1) {
+    //     userDB[index] = {
+    //         id: id,
+    //         first_name: data.first_name, // obligatorio
+    //         last_name: data.last_name, //obligatorio
+    //         email: data.email, //obligatorio
+    //         password: userDB[index].password, //obligatorio
+    //         phone: data.phone ? data.phone : '', //obligatoriounico 
+    //         birthday_date: data.birthday_date, //obligatorio
+    //         country: data.country, //obligator
+    //         role: userRole === 'admin' ? data.role : 'normal', //obligatorio y por defecto "normal"
+    //         profile_image: data.profile_image ? data.profile_image : '',
+    //         is_active: data.is_active, //obligatorio y por defecto "active"
+    //         verified: false //obligatorio y por defecto "false"
+    //     }
+    //     return userDB[index]
+    // } else {
+    //     return createUser(data)
+    // }
+// }
 
 
 const deleteUser = async(id) => {
@@ -103,14 +124,20 @@ const deleteUser = async(id) => {
         //? select * from users where email = ${email};
     }
 
-    const editProfileImg = (userId, imgUrl) => {
-        const index = userDB.findIndex(user => user.id === userId)
-        if (index !== -1) {
-            userDB[index].profile_image = imgUrl
-            return userDB[index]
-        }
-        return false
-    }
+ 
+
+    const editProfileImg = async (userId, imgUrl) => {
+        const response = await Users.update({
+            ...imgUrl
+            
+            },{
+                where:{
+                    id: userId
+                }
+            })
+            return response
+}
+
 
 
     module.exports = {
