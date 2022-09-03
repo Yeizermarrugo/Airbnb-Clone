@@ -7,13 +7,19 @@ const Users = db.define('users', {
         type: DataTypes.UUID,
         allowNull: false,
     },
-    first_name: {
+    firstName: {
         allowNull: false,
         type: DataTypes.STRING,
+        field: 'first_name'
     },
-    last_name: {
+    lastName: {
         allowNull: false,
         type: DataTypes.STRING,
+        field: 'last_name'
+    },
+    gender: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     email: {
         allowNull: false,
@@ -31,14 +37,20 @@ const Users = db.define('users', {
         allowNull: false,
         type: DataTypes.STRING,
     },
-    birthday_date: {
+    birthdayDate: {
         allowNull: false,
         type: DataTypes.DATEONLY,
+        field: 'birthday_date'
+    },
+    dni: {
+        type: DataTypes.STRING
     },
     role: {
         allowNull: false,
-        type: DataTypes.STRING,
-        defaultValue: 'normal',
+        type: DataTypes.UUID
+    },
+    address: {
+        type: DataTypes.STRING
     },
     profile_image: {
         type: DataTypes.STRING,
@@ -59,6 +71,16 @@ const Users = db.define('users', {
         allowNull: false,
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        field: 'created_at'
+    },
+    updateAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        field: 'created_at'
     }
 
 })
