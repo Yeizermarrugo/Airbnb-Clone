@@ -1,20 +1,23 @@
 const { getUserByEmail } = require('../users/users.controllers')
 const { comparePassword } = require('../utils/crypt')
 
-const loginUser = (email, password) => {
-    const user = getUserByEmail(email)
+const loginUser = async (email, password) => {
     //? user.password = contraseña hashead
     //* password = contraseña en texto plano
-    if (user) {
-        const verify_password = comparePassword(password, user.password)
-        if (verify_password) {
-            return user
-        }
-    }
-    return false
+    return  await getUserByEmail(email)
+    .then((res)=> {
+            const verify_password = comparePassword(password, res.password)
+            if (verify_password) {
+                return user
+            }
+            return false
+    })
+    .catch(err=> {
+        return false
+    } )
 }
 
-console.log(loginUser('Perez@example.com', 'root'));
+// console.log(loginUser('Perez@example.com', 'root'));
 
 module.exports = {
     loginUser

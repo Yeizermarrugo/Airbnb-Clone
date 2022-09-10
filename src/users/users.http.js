@@ -86,7 +86,6 @@ const edit = (req, res) => {
         !data.password||
         !data.phone||
         !data.birthday_date ||
-        !data.country||
         !data.role ||
         !data.profile_image||
         !data.is_active
@@ -144,10 +143,8 @@ const editMyUser = (req, res) => {
         !data.first_name ||
         !data.last_name ||
         !data.email || 
-        !data.password||
         !data.phone||
         !data.birthday_date ||
-        !data.country||
         !data.profile_image||
         !data.is_active
     ){
@@ -171,16 +168,34 @@ const editMyUser = (req, res) => {
     }
 }
 
-const postProfileImg = (req, res) =>{
-    const userId = req.user.id
+const postProfileImg = (req, res) => {
+    const userId = req.user.id;
     //mi-sitio.com/api/v1/users/me/profile-img
-    //localhost:8000/api/v1/users/me/profile_image
+    //localhost:8000/api/v1/users/me/profile-img
+  
+    const imgPath = req.hostname + ':8000' + '/api/v1/uploads/' + req.file.filename 
+  
+    userController.editProfileImg(userId, imgPath)
+      .then(response => {
+        res.status(200).json(response)
+      })
+      .catch(err => {
+        res.status(400).json({message: err.errors[0].message})
+      })
+  }
 
-    const imgPath = req.hostname + ':8000' + '/api/v1/uploads/' + req.file.filename
-    const data = userController.editProfileImg(userId, imgPath)
-    res.status(200).json(data)
-}
-
+const getUserRole = (req, res) => {
+    const id = req.params.id
+    console.log(id)
+    userController.getUserWithRole(id)
+      .then((response) => {
+        res.status(200).json(response)
+      })
+      .catch(err =>  {
+        res.status(400).json({message: err})
+      })
+  }
+  
 module.exports = {
     getAll,
     getById,
@@ -190,5 +205,6 @@ module.exports = {
     getMyUserById,
     editMyUser,
     removeMyuser,
-    postProfileImg
+    postProfileImg,
+    getUserRole
 }

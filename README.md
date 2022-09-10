@@ -33,3 +33,63 @@
 - /api/v1/auth/password-recovery
 - - POST
 - - PATCH
+
+# Paths de mi usuario a traves de mi aplicacion
+    [✅] registrar mi usuario
+    [✅] loggear mi usuario
+
+## usuario sin sesion iniciada
+    1. Ver los lugares
+    2. Puede ver la informacion de un lugar
+
+### Guest 
+
+    1. Ver los lugares
+    2. Puede ver la informacion de un lugar
+    3. Reservar
+    4. Cancelar su reservacion
+    4. Dar un score una vez finalizada la reservacion
+
+#### Host 
+    1. Ver los lugares
+    2. Puede ver la informacion de un lugar
+    3. Reservar
+    4. Dar un score una vez finalizada la reservacion
+    5. Crear lugares
+    6. Cancelar reservaciones en los lugares donde es host
+    7. Puede ver perfiles de usuario
+    8. Puede ver todos los lugares que le pertenecen
+    9. Editar el lugar 
+    10. Eliminar el lugar
+
+##### Admin
+
+    1. Ver los lugares
+    2. Puede ver la informacion de un lugar
+    3. Reservar
+    4. Dar un score una vez finalizada la reservacion
+    5. Puede ver perfiles de usuario
+    6. Modificar roles
+    7. Editar el lugar 
+    8. Eliminar el lugar
+    10. Modificar un usuario
+
+
+# Ruta Accommodations
+
+/api/v1/accommodations
+
+/
+-GET
+-POST
+
+/:id
+-GET
+-DELETE
+-PUT
+-PATCH
+
+/:id/available/
+-GET
+
+/:id/available/?arrival=value&departure=value

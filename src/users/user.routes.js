@@ -10,7 +10,7 @@ const userService = require('./users.http')
 
 router.route('/') //*  /api/v1/users/
     .get(userService.getAll)
-    .post(userService.register)
+    // .post(userService.register)
 
     
 router.route('/me')
@@ -24,10 +24,13 @@ router.route('/me')
 
 
 router.route('/:id')
-    .get(passport.authenticate('jwt', {session: false}), userService.getById)
+    .get(userService.getById)
     .delete(passport.authenticate('jwt', {session: false}), roleAdminMiddleware , userService.remove)
     .put(passport.authenticate('jwt', {session: false}),roleAdminMiddleware ,userService.edit)
 
+
+router.route('/:id/role')
+    .get(userService.getUserRole)
 
 
 module.exports = {

@@ -45,22 +45,20 @@ const Users = db.define('users', {
     dni: {
         type: DataTypes.STRING
     },
-    role: {
+    roleId: {
         allowNull: false,
         type: DataTypes.UUID
     },
     address: {
         type: DataTypes.STRING
     },
-    profile_image: {
+    profileImage: {
         type: DataTypes.STRING,
         validate: {
             isUrl: true
-        }
-    },
-    country: {
-        allowNull: false,
-        type: DataTypes.STRING,
+        },
+        field: 'profile_image'
+        
     },
     status: {
         allowNull: false,
@@ -77,10 +75,10 @@ const Users = db.define('users', {
         allowNull: false,
         field: 'created_at'
     },
-    updateAt: {
+    updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        field: 'created_at'
+        field: 'updated_at'
     }
 
 })
