@@ -48,6 +48,29 @@ const getAllAccommodationsById = async (id) => {
     return data
 }
 
+const createAccommodation = async(userId, data) => {
+    const id = req.user.id
+    const newAccommodation = await Accommodations.create({
+        id: UUID.v4(),
+        title: data.title,
+        description: data.description,
+        guest: data.guest,
+        rooms: data.rooms,
+        beds: data.beds,
+        bathrooms: data.bathrooms,
+        price: data.price,
+        hostId: userId,
+        score: data.score,
+        placesId: data.placesId,
+        commision: data.commision,
+        
+        
+    }
+    )
+    return newAccommodation
+  }
+  
+
 module.exports = {
     getAllAccommodations,
     getAllAccommodationsById
