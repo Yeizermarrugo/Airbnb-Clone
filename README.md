@@ -89,7 +89,11 @@
 -PUT
 -PATCH
 
-/:id/available/
+/:id/available/?arrival=value&departure=value
 -GET
 
-/:id/available/?arrival=value&departure=value
+/api/v1/accomodations/:id/make-reservation
+
+
+# Ejemplo de documentacion
+https://petstore.swagger.io/v2/swagger.json
