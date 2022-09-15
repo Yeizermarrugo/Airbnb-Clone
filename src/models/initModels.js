@@ -7,6 +7,7 @@ const Users_images = require("./users_images.model");
 const Roles = require("./roles.model");
 
 const initModels = () => {
+
   //? Users <- Roles
   Roles.hasMany(Users);
   Users.belongsTo(Roles);
@@ -16,8 +17,14 @@ const initModels = () => {
   Users.hasMany(Users_images);
 
   //? Users <-> Accomodations
-  Users.belongsToMany(Accommodations, { through: Reservations });
-  Accommodations.belongsToMany(Users, { through: Reservations });
+  // Users.belongsToMany(Accommodations, { through: Reservations, });
+  // Accommodations.belongsToMany(Users, { through: Reservations,});
+
+  Users.hasMany(Reservations)
+  Reservations.belongsTo(Users)
+
+  Accommodations.hasMany(Reservations)
+  Reservations.belongsTo(Accommodations)
 
   //? Accomodations -> Acommodation_images
   Accommodation_images.belongsTo(Accommodations);

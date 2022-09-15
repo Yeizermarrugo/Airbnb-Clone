@@ -4,7 +4,7 @@ const passport = require('passport')
 
 const accommodationsServices = require('./accommodation.http')
 const reservationService = require('../reservations/reservation.http')
-require('../middleware/auth.middleware')
+require('../middleware/auth.middleware')(passport)
 
 router.route('/')
     .get(accommodationsServices.getAll)

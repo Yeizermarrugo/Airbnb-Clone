@@ -12,6 +12,7 @@ const swaggerUi = require('swagger-ui-express');
 const userRoute = require('./users/user.routes').router
 const authRoute = require('./auth/auth.routes').router
 const accommodationsRouter = require('./Accommodations/accommodation.routes').router
+const reservationsRoute = require('./reservations/reservation.routes').router
 const swaggerDoc = require('./swagger.json')
 
 const {db} = require('./utils/database')
@@ -52,6 +53,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/users', userRoute)
 app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/accommodations', accommodationsRouter)
+app.use('/api/v1/reservations', reservationsRoute)
 app.use('/v1/doc', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 
 app.get('/api/v1/uploads/:imgName', (req, res) => {

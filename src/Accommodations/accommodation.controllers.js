@@ -73,5 +73,5 @@ const createAccommodation = async(userId, data) => {
 
 module.exports = {
     getAllAccommodations,
-    getAllAccommodationsById
+    getAllAccommodationsById,
 }
